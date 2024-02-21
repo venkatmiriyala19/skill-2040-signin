@@ -7,7 +7,8 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
 import Sidebar from './Sidebar';
-import Reviewbar from './Reviewbar'
+import Reviewbar from './Reviewbar';
+import CourseCards from './CourseCards';
 
 
 
@@ -31,6 +32,7 @@ function App() {
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/sidebar" element={<Sidebar />} />
               <Route exact path="/reviewbar" element={<Reviewbar />} />
+              <Route exact path="/courses" element={<CourseCards />} />
               <Route path="/login" element={<Login />} />
               
             </Routes>
