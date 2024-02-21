@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
-
+import Sidebar from './Sidebar';
+import Reviewbar from './Reviewbar'
 
 
 
@@ -28,6 +29,8 @@ function App() {
               />
               <Route exact path="/" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/sidebar" element={<Sidebar />} />
+              <Route exact path="/reviewbar" element={<Reviewbar />} />
               <Route path="/login" element={<Login />} />
               
             </Routes>
