@@ -58,7 +58,7 @@ export default function Dashboard() {
         <Card.Body>
           <h2 className='text-center mb-4'>Profile</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Email: </strong> {email || userEmail }
+          <strong>Vishnu Email: </strong> {email || userEmail }
           <br />
           <strong>Name: </strong> {name || userName }
           <br />

@@ -3,6 +3,9 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup} from "firebase/auth";
+
 
 import './Signup.css';
 
@@ -11,6 +14,7 @@ export default function Signup() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const nameRef = useRef();
+ 
   const { signup } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,11 +23,43 @@ export default function Signup() {
   const linkStyle={
     textDecoration: 'none',color: isHovered ? 'black' : '#92e3a9',
   }
+  
 
+const provider = new GoogleAuthProvider();
 
   useEffect(() => {
     document.body.className = 'Signup';
   }, []);
+
+  const auth = getAuth();
+  const googleSignup = async () => {
+    try {
+      
+    provider.addScope('email');
+      const result = await signInWithPopup(auth, provider);
+
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      
+      // The signed-in user info.
+      const user = result.user;
+
+      // Access the user's name
+      const userName = user.displayName;
+      const userEmail = user.email;
+      const emailDomain = userEmail.split('@')[1];
+      console.log('User Name:', userName);
+      if (emailDomain === 'vishnu.edu.in') {
+        await navigate('/vishnudashboard', { state: { userName, userEmail } });
+      } else {
+        await navigate('/dashboard', { state: { userName, userEmail } });
+      }
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error('Google Sign In Error:', errorCode, errorMessage);
+    }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -83,9 +119,14 @@ export default function Signup() {
             <Button disabled={loading} className="w-100 button" type="submit" style={{backgroundColor:'#253439',border:'0',fontSize:'16px',color:'#dff7e7' }}>
               Sign Up
             </Button>
+            <p style={{textAlign:'center',paddingTop:'1rem'}}> OR</p>
+            <Button disabled={loading} onClick={googleSignup} className="w-100 button" type="button" style={{backgroundColor:'#253439',border:'0',fontSize:'16px',color:'#dff7e7' }}>
+              Sign Up with Google
+            </Button>
           </Form>
         </Card.Body>
       </Card>
+      
       <div className="w-100 text-center mt-2" style={{ color: 'rgba(0,2,35,255)' }}>
         Already have an account? <Link to="/login" style={linkStyle}  onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}>Login</Link>

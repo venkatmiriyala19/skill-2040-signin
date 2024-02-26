@@ -9,6 +9,7 @@ import PrivateRoute from './PrivateRoute';
 import Sidebar from './Sidebar';
 import Reviewbar from './Reviewbar';
 import CourseCards from './CourseCards';
+import VishnuDashboard from './VishnuDashboard';
 
 
 
@@ -25,6 +26,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/vishnudashboard"
+                element={
+                  <PrivateRoute>
+                    <VishnuDashboard />
                   </PrivateRoute>
                 }
               />
