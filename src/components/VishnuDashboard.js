@@ -8,7 +8,7 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 export default function Dashboard() {
   const [error, setError] = useState('');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState(''); // State to store the user's email
+  const [email, setEmail] = useState('');
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

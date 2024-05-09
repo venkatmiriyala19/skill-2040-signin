@@ -37,13 +37,7 @@ const provider = new GoogleAuthProvider();
       
     provider.addScope('email');
       const result = await signInWithPopup(auth, provider);
-
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      
-      // The signed-in user info.
       const user = result.user;
-
-      // Access the user's name
       const userName = user.displayName;
       const userEmail = user.email;
       const emailDomain = userEmail.split('@')[1];
@@ -54,7 +48,6 @@ const provider = new GoogleAuthProvider();
         await navigate('/dashboard', { state: { userName, userEmail } });
       }
     } catch (error) {
-      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error('Google Sign In Error:', errorCode, errorMessage);
