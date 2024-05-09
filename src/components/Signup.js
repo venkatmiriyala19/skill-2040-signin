@@ -54,33 +54,88 @@ const provider = new GoogleAuthProvider();
     }
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match');
-    }
+  //   if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+  //     return setError('Passwords do not match');
+  //   }
 
-    try {
-      setError('');
-      setLoading(true);
+  //   try {
+  //     setError('');
+  //     setLoading(true);
 
-      const { user } = await signup(emailRef.current.value, passwordRef.current.value);
-      const db = getFirestore();
+  //     const { user } = await signup(emailRef.current.value, passwordRef.current.value);
+  //     const db = getFirestore();
 
-      await addDoc(collection(db, 'users'), {
-        uid: user.uid,
-        name: nameRef.current.value,
-        email: emailRef.current.value,
-      });
+  //     await addDoc(collection(db, 'users'), {
+  //       uid: user.uid,
+  //       name: nameRef.current.value,
+  //       email: emailRef.current.value,
+  //     });
 
-      navigate('/dashboard');
-    } catch (error) {
-      setError('Failed to create an account');
-    }
+  //     navigate('/dashboard');
+  //   } catch (error) {
+  //     setError('Failed to create an account');
+  //   }
 
-    setLoading(false);
+  //   setLoading(false);
+  // }
+
+// Inside your Signup component
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  // Check if passwords match
+  if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    return setError('Passwords do not match');
   }
+
+  try {
+    setError('');
+    setLoading(true);
+
+    // Sign up the user using the signup function from useAuth hook
+    const userCredential = await signup(emailRef.current.value, passwordRef.current.value);
+    const user = userCredential.user;
+    if (!nameRef.current) {
+      console.error('Name input reference is not defined.');
+      return;
+    }
+console.log('Name:', nameRef.current.value);
+    // Create a Firestore instance
+    const db = getFirestore();
+
+    // Define the collection reference
+    const usersRef = collection(db, 'users');
+
+    // Create user data object to add to Firestore
+    const userData = {
+      email: emailRef.current.value,
+      name: nameRef.current.value,
+      uid: user.uid,
+    };
+
+    // Add user data to Firestore
+    await addDoc(usersRef, userData);
+
+    // Log success message
+    console.log('User added to Firestore successfully');
+
+    // Navigate to dashboard after successful signup
+    navigate('/dashboard');
+  } catch (error) {
+    console.error('Error signing up or adding user to Firestore:', error);
+    setError('Failed to create an account');
+  }
+
+  setLoading(false);
+}
+
+  
+  
+  
 
   return (
     <>
