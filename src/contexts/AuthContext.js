@@ -13,15 +13,14 @@ export function AuthProvider({ children }) {
 
     function signup(email, password, name) {
         return auth.createUserWithEmailAndPassword(email, password)
-            .then(async (userCredential) => {
-                // After successful signup, send verification email
-                await userCredential.user.sendEmailVerification();
+            // .then(async (userCredential) => {
+          
+            //     await userCredential.user.sendEmailVerification();
                 
-                // Add user data to Firestore
-                await addUserToFirestore(userCredential.user.uid, name, email);
+            //     await addUserToFirestore(userCredential.user.uid, name, email);
                 
-                return userCredential.user;
-            });
+            //     return userCredential.user;
+            // });
     }
 
     async function addUserToFirestore(userId, name, email) {
